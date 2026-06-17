@@ -1,3 +1,4 @@
+// page.tsx (WarehouseDetailPage)
 import Link from "next/link";
 import { ArrowLeft, Pencil, Trash2, Boxes, MapPin, BarChart3 } from "lucide-react";
 import { Button } from "../../../../components/ui/button";
@@ -55,8 +56,8 @@ export default function WarehouseDetailPage({ params }: { params: { id: string }
           <Link href="/warehouses">
             <Button variant="ghost" size="sm" icon={<ArrowLeft size={14} />}>Entrepôts</Button>
           </Link>
-          <span className="text-[var(--text-muted)]">/</span>
-          <h1 className="text-xl font-semibold text-[var(--text-primary)]">{wh.name}</h1>
+          <span className="text-(--text-muted)">/</span>
+          <h1 className="text-xl font-semibold text-(--text-primary)">{wh.name}</h1>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="secondary" size="sm" icon={<Pencil size={13} />}>Modifier</Button>
@@ -69,27 +70,27 @@ export default function WarehouseDetailPage({ params }: { params: { id: string }
         <div className="space-y-4 xl:col-span-2">
           {/* Inventaire */}
           <Card padding="none">
-            <div className="flex items-center gap-2 border-b border-[var(--border)] px-5 py-4">
-              <Boxes size={14} className="text-[var(--accent)]" />
-              <h2 className="text-sm font-semibold text-[var(--text-primary)]">
+            <div className="flex items-center gap-2 border-b border-(--border) px-5 py-4">
+              <Boxes size={14} className="text-(--accent)" />
+              <h2 className="text-sm font-semibold text-(--text-primary)">
                 Inventaire ({mockStock.length} produits)
               </h2>
             </div>
-            <div className="divide-y divide-[var(--border-subtle)]">
+            <div className="divide-y divide-(--border-subtle)">
               {mockStock.map((item) => {
                 const pct = Math.min((item.quantity / 100) * 100, 100);
                 const color = item.quantity === 0 ? "var(--danger)" : item.quantity < 10 ? "var(--warning)" : "var(--success)";
                 return (
                   <div key={item.id} className="flex items-center justify-between px-5 py-3">
                     <div className="flex-1">
-                      <p className="text-sm font-medium text-[var(--text-primary)]">
+                      <p className="text-sm font-medium text-(--text-primary)">
                         {item.product.name}
                       </p>
-                      <p className="text-xs text-[var(--text-muted)]">{item.product.category}</p>
+                      <p className="text-xs text-(--text-muted)">{item.product.category}</p>
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="w-24">
-                        <div className="h-1.5 w-full overflow-hidden rounded-full bg-[var(--border)]">
+                        <div className="h-1.5 w-full overflow-hidden rounded-full bg-(--border)">
                           <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: color }} />
                         </div>
                       </div>
@@ -117,7 +118,7 @@ export default function WarehouseDetailPage({ params }: { params: { id: string }
           <Card>
             <CardHeader>
               <div className="flex items-center gap-2">
-                <MapPin size={14} className="text-[var(--accent)]" />
+                <MapPin size={14} className="text-(--accent)" />
                 <CardTitle>Informations</CardTitle>
               </div>
             </CardHeader>
@@ -128,9 +129,9 @@ export default function WarehouseDetailPage({ params }: { params: { id: string }
                 { label: "Localisation", value: wh.location },
                 { label: "Capacité max", value: `${wh.capacity.toLocaleString()} u.` },
               ].map(({ label, value }) => (
-                <div key={label} className="flex justify-between py-1.5 border-b border-[var(--border-subtle)] last:border-0">
-                  <span className="text-xs text-[var(--text-muted)]">{label}</span>
-                  <span className="text-xs font-medium text-[var(--text-primary)]">{value}</span>
+                <div key={label} className="flex justify-between py-1.5 border-b border-(--border-subtle) last:border-0">
+                  <span className="text-xs text-(--text-muted)">{label}</span>
+                  <span className="text-xs font-medium text-(--text-primary)">{value}</span>
                 </div>
               ))}
             </div>
@@ -140,16 +141,16 @@ export default function WarehouseDetailPage({ params }: { params: { id: string }
           <Card>
             <CardHeader>
               <div className="flex items-center gap-2">
-                <BarChart3 size={14} className="text-[var(--accent)]" />
+                <BarChart3 size={14} className="text-(--accent)" />
                 <CardTitle>Occupation</CardTitle>
               </div>
             </CardHeader>
             <div className="space-y-3">
-              <div className="flex justify-between text-xs text-[var(--text-muted)]">
+              <div className="flex justify-between text-xs text-(--text-muted)">
                 <span>{totalUnits} unités stockées</span>
                 <span>{wh.capacity} max</span>
               </div>
-              <div className="h-3 w-full overflow-hidden rounded-full bg-[var(--border)]">
+              <div className="h-3 w-full overflow-hidden rounded-full bg-(--border)">
                 <div
                   className="h-full rounded-full transition-all"
                   style={{
@@ -158,9 +159,9 @@ export default function WarehouseDetailPage({ params }: { params: { id: string }
                   }}
                 />
               </div>
-              <p className="text-center text-2xl font-bold text-[var(--text-primary)]">
+              <p className="text-center text-2xl font-bold text-(--text-primary)">
                 {occupancy}%
-                <span className="text-sm font-normal text-[var(--text-muted)] ml-1">occupé</span>
+                <span className="text-sm font-normal text-(--text-muted) ml-1">occupé</span>
               </p>
             </div>
           </Card>

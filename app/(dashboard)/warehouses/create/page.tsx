@@ -1,3 +1,4 @@
+// page.tsx (WarehouseCreatePage)
 "use client";
 
 import { useState } from "react";
@@ -33,8 +34,8 @@ export default function WarehouseCreatePage() {
               Entrepôts
             </Button>
           </Link>
-          <span className="text-[var(--text-muted)]">/</span>
-          <h1 className="text-xl font-semibold text-[var(--text-primary)]">Nouvel entrepôt</h1>
+          <span className="text-(--text-muted)">/</span>
+          <h1 className="text-xl font-semibold text-(--text-primary)">Nouvel entrepôt</h1>
         </div>
         <div className="flex items-center gap-2">
           <Link href="/warehouses">
@@ -52,7 +53,7 @@ export default function WarehouseCreatePage() {
               <Input label="Nom de l'entrepôt *" placeholder="Ex: Entrepôt Douala Nord" value={form.name} onChange={set("name")} required />
               <Input label="Localisation *" placeholder="Ex: Douala, Cameroun" value={form.location} onChange={set("location")} required />
               <Input label="Capacité maximale (unités) *" type="number" placeholder="Ex: 2000" value={form.capacity} onChange={set("capacity")} required min="1" />
-              <p className="text-xs text-[var(--text-muted)] -mt-2">
+              <p className="text-xs text-(--text-muted) -mt-2">
                 Nombre maximum d&apos;unités stockables dans cet entrepôt.
               </p>
             </div>
@@ -66,20 +67,20 @@ export default function WarehouseCreatePage() {
               <div className="space-y-2">
                 {form.name && (
                   <div>
-                    <p className="text-xs text-[var(--text-muted)]">Nom</p>
-                    <p className="text-sm font-medium text-[var(--text-primary)]">{form.name}</p>
+                    <p className="text-xs text-(--text-muted)">Nom</p>
+                    <p className="text-sm font-medium text-(--text-primary)">{form.name}</p>
                   </div>
                 )}
                 {form.location && (
                   <div>
-                    <p className="text-xs text-[var(--text-muted)]">Localisation</p>
-                    <p className="text-sm text-[var(--text-secondary)]">{form.location}</p>
+                    <p className="text-xs text-(--text-muted)">Localisation</p>
+                    <p className="text-sm text-(--text-secondary)">{form.location}</p>
                   </div>
                 )}
                 {form.capacity && (
                   <div>
-                    <p className="text-xs text-[var(--text-muted)]">Capacité</p>
-                    <p className="text-sm font-semibold text-[var(--accent)]">
+                    <p className="text-xs text-(--text-muted)">Capacité</p>
+                    <p className="text-sm font-semibold text-(--accent)">
                       {parseInt(form.capacity).toLocaleString()} unités
                     </p>
                   </div>

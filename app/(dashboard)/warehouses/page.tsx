@@ -1,3 +1,4 @@
+// page.tsx (WarehousesPage)
 import { PageHeader } from "../../../components/shared/page-header";
 import { DataTable } from "../../../components/tables/data-table";
 import { Button } from "../../../components/ui/button";
@@ -16,19 +17,19 @@ export default function WarehousesPage() {
       key: "name",
       label: "Nom",
       render: (w: Warehouse) => (
-        <p className="font-medium text-[var(--text-primary)]">{w.name}</p>
+        <p className="font-medium text-(--text-primary)">{w.name}</p>
       ),
     },
     {
       key: "location",
       label: "Localisation",
-      render: (w: Warehouse) => <span className="text-[var(--text-secondary)]">{w.location}</span>,
+      render: (w: Warehouse) => <span className="text-(--text-secondary)">{w.location}</span>,
     },
     {
       key: "capacity",
       label: "Capacité",
       render: (w: Warehouse) => (
-        <span className="tabular-nums text-[var(--text-secondary)]">{w.capacity.toLocaleString()} unités</span>
+        <span className="tabular-nums text-(--text-secondary)">{w.capacity.toLocaleString()} unités</span>
       ),
     },
     {
@@ -42,7 +43,7 @@ export default function WarehousesPage() {
           <Link href={`/warehouses/${w.id}`}>
             <Button variant="ghost" size="sm" icon={<Pencil size={13} />} />
           </Link>
-          <Button variant="ghost" size="sm" icon={<Trash2 size={13} />} className="hover:text-[var(--danger)]" />
+          <Button variant="ghost" size="sm" icon={<Trash2 size={13} />} className="hover:text-(--danger)" />
         </div>
       ),
     },
