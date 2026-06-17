@@ -14,7 +14,7 @@ export const productService = {
   // Récupérer la liste des produits paginés
   getProducts: (page: number = 1, limit: number = 10) =>
     apiClient.get<PaginatedResponse<Product>>(
-      `/products?page=${page}&limit=${limit}`
+      `/products`
     ),
 
   // Récupérer un produit par son ID

@@ -55,7 +55,7 @@ export default function ProductsPage() {
 
     try {
       // Utilisation du productService comme pour authService
-      const data = await productService.getProducts(page, DEFAULT_LIMIT);
+      const data = await productService.getProducts();
       
       setProducts(data.items);
       setTotalPages(data.totalPages);
