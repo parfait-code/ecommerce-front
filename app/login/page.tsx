@@ -1,3 +1,4 @@
+// page.tsx (LoginPage)
 "use client";
 
 import { useState } from "react";
@@ -32,7 +33,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[var(--bg-base)] p-4">
+    <div className="flex min-h-screen items-center justify-center bg-(--bg-base) p-4">
       {/* Background subtle grid */}
       <div
         className="pointer-events-none fixed inset-0 opacity-[0.03]"
@@ -46,22 +47,22 @@ export default function LoginPage() {
       <div className="relative w-full max-w-sm">
         {/* Logo */}
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--accent)]">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-(--accent)">
             <span className="text-lg font-bold text-white">BO</span>
           </div>
-          <h1 className="text-xl font-semibold text-[var(--text-primary)]">
+          <h1 className="text-xl font-semibold text-(--text-primary)">
             Backoffice
           </h1>
-          <p className="mt-1 text-sm text-[var(--text-muted)]">
+          <p className="mt-1 text-sm text-(--text-muted)">
             Connectez-vous à votre espace
           </p>
         </div>
 
         {/* Form card */}
-        <div className="rounded-2xl border border-[var(--border)] bg-[var(--bg-card)] p-6 shadow-xl shadow-black/20">
+        <div className="rounded-2xl border border-(--border) bg-(--bg-card) p-6 shadow-xl shadow-black/20">
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="flex items-center gap-2 rounded-lg bg-[var(--danger-muted)] px-3 py-2.5 text-sm text-[var(--danger)]">
+              <div className="flex items-center gap-2 rounded-lg bg-(--danger-muted) px-3 py-2.5 text-sm text-(--danger)">
                 <AlertCircle size={14} className="shrink-0" />
                 {error}
               </div>
@@ -88,13 +89,13 @@ export default function LoginPage() {
             />
 
             <div className="flex items-center justify-between pt-1">
-              <label className="flex cursor-pointer items-center gap-2 text-xs text-[var(--text-muted)]">
-                <input type="checkbox" className="accent-[var(--accent)]" />
+              <label className="flex cursor-pointer items-center gap-2 text-xs text-(--text-muted)">
+                <input type="checkbox" className="accent-(--accent)" />
                 Se souvenir de moi
               </label>
               <button
                 type="button"
-                className="text-xs text-[var(--accent)] hover:underline"
+                className="text-xs text-(--accent) hover:underline"
               >
                 Mot de passe oublié ?
               </button>
