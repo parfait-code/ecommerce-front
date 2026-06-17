@@ -1,3 +1,4 @@
+// page.tsx (ProductCreatePage)
 "use client";
 
 import { useState } from "react";
@@ -42,7 +43,7 @@ function Textarea({
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-sm font-medium text-[var(--text-secondary)]">
+      <label className="text-sm font-medium text-(--text-secondary)">
         {label}
       </label>
       <textarea
@@ -50,7 +51,7 @@ function Textarea({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         rows={rows}
-        className="w-full resize-none rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2.5 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]"
+        className="w-full resize-none rounded-lg border border-(--border) bg-(--bg-card) px-3 py-2.5 text-sm text-(--text-primary) placeholder:text-(--text-muted) focus:border-(--accent) focus:outline-none focus:ring-1 focus:ring-(--accent)"
       />
     </div>
   );
@@ -69,13 +70,13 @@ function Select({
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-sm font-medium text-[var(--text-secondary)]">
+      <label className="text-sm font-medium text-(--text-secondary)">
         {label}
       </label>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="h-9 w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 text-sm text-[var(--text-primary)] focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]"
+        className="h-9 w-full rounded-lg border border-(--border) bg-(--bg-card) px-3 text-sm text-(--text-primary) focus:border-(--accent) focus:outline-none focus:ring-1 focus:ring-(--accent)"
       >
         <option value="">Sélectionner…</option>
         {options.map((o) => (
@@ -139,8 +140,8 @@ export default function ProductCreatePage() {
               Produits
             </Button>
           </Link>
-          <span className="text-[var(--text-muted)]">/</span>
-          <h1 className="text-xl font-semibold text-[var(--text-primary)]">
+          <span className="text-(--text-muted)">/</span>
+          <h1 className="text-xl font-semibold text-(--text-primary)">
             Nouveau produit
           </h1>
         </div>
@@ -183,11 +184,11 @@ export default function ProductCreatePage() {
             </CardHeader>
             <div className="space-y-3">
               {/* Zone upload */}
-              <label className="flex h-32 cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-[var(--border)] text-[var(--text-muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]">
+              <label className="flex h-32 cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-(--border) text-(--text-muted) transition-colors hover:border-(--accent) hover:text-(--accent)">
                 <Upload size={20} />
                 <span className="text-sm">
                   Glisser-déposer ou{" "}
-                  <span className="font-medium text-[var(--accent)]">
+                  <span className="font-medium text-(--accent)">
                     parcourir
                   </span>
                 </span>
@@ -201,7 +202,7 @@ export default function ProductCreatePage() {
                   {images.map((img, i) => (
                     <div
                       key={i}
-                      className="group relative aspect-square overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-hover)]"
+                      className="group relative aspect-square overflow-hidden rounded-lg border border-(--border) bg-(--bg-hover)"
                     >
                       <img
                         src={img}
@@ -213,7 +214,7 @@ export default function ProductCreatePage() {
                         onClick={() =>
                           setImages((prev) => prev.filter((_, j) => j !== i))
                         }
-                        className="absolute right-1 top-1 hidden h-5 w-5 items-center justify-center rounded-full bg-[var(--danger)] text-white group-hover:flex"
+                        className="absolute right-1 top-1 hidden h-5 w-5 items-center justify-center rounded-full bg-(--danger) text-white group-hover:flex"
                       >
                         <X size={10} />
                       </button>
@@ -221,7 +222,7 @@ export default function ProductCreatePage() {
                   ))}
                   <button
                     type="button"
-                    className="flex aspect-square items-center justify-center rounded-lg border border-dashed border-[var(--border)] text-[var(--text-muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                    className="flex aspect-square items-center justify-center rounded-lg border border-dashed border-(--border) text-(--text-muted) transition-colors hover:border-(--accent) hover:text-(--accent)"
                   >
                     <Plus size={20} />
                   </button>
@@ -243,7 +244,7 @@ export default function ProductCreatePage() {
               required
               min="0"
             />
-            <p className="text-xs text-[var(--text-muted)] -mt-2">
+            <p className="text-xs text-(--text-muted) -mt-2">
               {form.price
                 ? `= ${(parseInt(form.price) / 100).toFixed(0)} XAF`
                 : "Saisir en centimes (9990 = 99,90 XAF)"}
@@ -275,24 +276,24 @@ export default function ProductCreatePage() {
               <div className="space-y-2">
                 {form.name && (
                   <div>
-                    <p className="text-xs text-[var(--text-muted)]">Nom</p>
-                    <p className="text-sm font-medium text-[var(--text-primary)]">
+                    <p className="text-xs text-(--text-muted)">Nom</p>
+                    <p className="text-sm font-medium text-(--text-primary)">
                       {form.name}
                     </p>
                   </div>
                 )}
                 {form.price && (
                   <div>
-                    <p className="text-xs text-[var(--text-muted)]">Prix</p>
-                    <p className="text-sm font-bold text-[var(--accent)]">
+                    <p className="text-xs text-(--text-muted)">Prix</p>
+                    <p className="text-sm font-bold text-(--accent)">
                       {(parseInt(form.price) / 100).toFixed(0)} XAF
                     </p>
                   </div>
                 )}
                 {form.category && (
                   <div>
-                    <p className="text-xs text-[var(--text-muted)]">Catégorie</p>
-                    <p className="text-sm text-[var(--text-secondary)]">
+                    <p className="text-xs text-(--text-muted)">Catégorie</p>
+                    <p className="text-sm text-(--text-secondary)">
                       {form.category}
                     </p>
                   </div>

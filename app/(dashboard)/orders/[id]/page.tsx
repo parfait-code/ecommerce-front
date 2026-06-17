@@ -1,3 +1,4 @@
+// page.tsx (OrderDetailPage)
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -161,12 +162,12 @@ export default function OrderDetailPage({
               Commandes
             </Button>
           </Link>
-          <span className="text-[var(--text-muted)]">/</span>
+          <span className="text-(--text-muted)">/</span>
           <div>
-            <h1 className="text-xl font-semibold text-[var(--text-primary)] font-mono">
+            <h1 className="text-xl font-semibold text-(--text-primary) font-mono">
               {order.id}
             </h1>
-            <p className="text-xs text-[var(--text-muted)] mt-0.5">
+            <p className="text-xs text-(--text-muted) mt-0.5">
               Passée le {formatDateTime(order.createdAt!)}
             </p>
           </div>
@@ -179,44 +180,44 @@ export default function OrderDetailPage({
         <div className="space-y-4 xl:col-span-2">
           {/* Articles */}
           <Card padding="none">
-            <div className="flex items-center gap-2 border-b border-[var(--border)] px-5 py-4">
-              <Package size={15} className="text-[var(--accent)]" />
-              <h2 className="text-sm font-semibold text-[var(--text-primary)]">
+            <div className="flex items-center gap-2 border-b border-(--border) px-5 py-4">
+              <Package size={15} className="text-(--accent)" />
+              <h2 className="text-sm font-semibold text-(--text-primary)">
                 Articles commandés
               </h2>
             </div>
-            <div className="divide-y divide-[var(--border-subtle)]">
+            <div className="divide-y divide-(--border-subtle)">
               {order.items.map((item) => (
                 <div
                   key={item.id}
                   className="flex items-center justify-between px-5 py-4"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--bg-hover)] text-[var(--text-muted)]">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-(--bg-hover) text-(--text-muted)">
                       <Package size={16} />
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-[var(--text-primary)]">
+                      <p className="text-sm font-medium text-(--text-primary)">
                         {item.product?.name ?? `Produit #${item.productId}`}
                       </p>
-                      <p className="text-xs text-[var(--text-muted)]">
+                      <p className="text-xs text-(--text-muted)">
                         Qté : {item.quantity} ×{" "}
                         {formatCurrency(item.price)}
                       </p>
                     </div>
                   </div>
-                  <p className="text-sm font-semibold text-[var(--text-primary)] tabular-nums">
+                  <p className="text-sm font-semibold text-(--text-primary) tabular-nums">
                     {formatCurrency(item.price * item.quantity)}
                   </p>
                 </div>
               ))}
             </div>
             {/* Total */}
-            <div className="flex items-center justify-between border-t border-[var(--border)] bg-[var(--bg-hover)] px-5 py-3">
-              <span className="text-sm font-medium text-[var(--text-secondary)]">
+            <div className="flex items-center justify-between border-t border-(--border) bg-(--bg-hover) px-5 py-3">
+              <span className="text-sm font-medium text-(--text-secondary)">
                 Total commande
               </span>
-              <span className="text-base font-bold text-[var(--text-primary)] tabular-nums">
+              <span className="text-base font-bold text-(--text-primary) tabular-nums">
                 {formatCurrency(order.totalAmount)}
               </span>
             </div>
@@ -226,7 +227,7 @@ export default function OrderDetailPage({
           <Card>
             <CardHeader>
               <div className="flex items-center gap-2">
-                <Clock size={15} className="text-[var(--accent)]" />
+                <Clock size={15} className="text-(--accent)" />
                 <CardTitle>Historique & statut</CardTitle>
               </div>
             </CardHeader>
@@ -240,8 +241,8 @@ export default function OrderDetailPage({
                       <div
                         className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${
                           step.done
-                            ? "bg-[var(--success)] text-white"
-                            : "border-2 border-[var(--border)] text-[var(--text-muted)]"
+                            ? "bg-(--success) text-white"
+                            : "border-2 border-(--border) text-(--text-muted)"
                         }`}
                       >
                         {step.done ? (
@@ -256,10 +257,10 @@ export default function OrderDetailPage({
                       </div>
                       {!isLast && (
                         <div
-                          className={`mt-0.5 w-0.5 flex-1 min-h-[24px] ${
+                          className={`mt-0.5 w-0.5 flex-1 min-h-6 ${
                             step.done
-                              ? "bg-[var(--success)]"
-                              : "bg-[var(--border)]"
+                              ? "bg-(--success)"
+                              : "bg-(--border)"
                           }`}
                         />
                       )}
@@ -269,14 +270,14 @@ export default function OrderDetailPage({
                       <p
                         className={`text-sm font-medium ${
                           step.done
-                            ? "text-[var(--text-primary)]"
-                            : "text-[var(--text-muted)]"
+                            ? "text-(--text-primary)"
+                            : "text-(--text-muted)"
                         }`}
                       >
                         {step.label}
                       </p>
                       {step.date && (
-                        <p className="text-xs text-[var(--text-muted)] mt-0.5">
+                        <p className="text-xs text-(--text-muted) mt-0.5">
                           {formatDateTime(step.date)}
                         </p>
                       )}
@@ -294,31 +295,31 @@ export default function OrderDetailPage({
           <Card>
             <CardHeader>
               <div className="flex items-center gap-2">
-                <MapPin size={14} className="text-[var(--accent)]" />
+                <MapPin size={14} className="text-(--accent)" />
                 <CardTitle>Livraison</CardTitle>
               </div>
             </CardHeader>
             <div className="space-y-1">
-              <p className="text-sm font-medium text-[var(--text-primary)]">
+              <p className="text-sm font-medium text-(--text-primary)">
                 Client #{order.userId}
               </p>
-              <p className="text-sm text-[var(--text-secondary)]">
+              <p className="text-sm text-(--text-secondary)">
                 {order.shippingAddress.street}
               </p>
-              <p className="text-sm text-[var(--text-secondary)]">
+              <p className="text-sm text-(--text-secondary)">
                 {order.shippingAddress.city},{" "}
                 {order.shippingAddress.country}
               </p>
-              <p className="text-sm text-[var(--text-secondary)]">
+              <p className="text-sm text-(--text-secondary)">
                 {order.shippingAddress.postalCode}
               </p>
             </div>
             {order.notes && (
-              <div className="mt-3 rounded-lg bg-[var(--bg-hover)] p-3">
-                <p className="text-xs text-[var(--text-muted)] mb-1">
+              <div className="mt-3 rounded-lg bg-(--bg-hover) p-3">
+                <p className="text-xs text-(--text-muted) mb-1">
                   Note client
                 </p>
-                <p className="text-sm text-[var(--text-secondary)] italic">
+                <p className="text-sm text-(--text-secondary) italic">
                   &ldquo;{order.notes}&rdquo;
                 </p>
               </div>
@@ -329,24 +330,24 @@ export default function OrderDetailPage({
           <Card>
             <CardHeader>
               <div className="flex items-center gap-2">
-                <CreditCard size={14} className="text-[var(--accent)]" />
+                <CreditCard size={14} className="text-(--accent)" />
                 <CardTitle>Paiement</CardTitle>
               </div>
             </CardHeader>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs text-[var(--text-muted)]">Méthode</span>
-                <span className="text-xs font-medium text-[var(--text-primary)]">
+                <span className="text-xs text-(--text-muted)">Méthode</span>
+                <span className="text-xs font-medium text-(--text-primary)">
                   {methodLabels[mockPayment.method]}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-xs text-[var(--text-muted)]">Statut</span>
+                <span className="text-xs text-(--text-muted)">Statut</span>
                 <Badge variant={ps.variant}>{ps.label}</Badge>
               </div>
-              <div className="flex items-center justify-between border-t border-[var(--border-subtle)] pt-3">
-                <span className="text-xs text-[var(--text-muted)]">Montant</span>
-                <span className="text-sm font-bold text-[var(--text-primary)] tabular-nums">
+              <div className="flex items-center justify-between border-t border-(--border-subtle) pt-3">
+                <span className="text-xs text-(--text-muted)">Montant</span>
+                <span className="text-sm font-bold text-(--text-primary) tabular-nums">
                   {formatCurrency(mockPayment.amount, mockPayment.currency)}
                 </span>
               </div>
@@ -357,17 +358,17 @@ export default function OrderDetailPage({
           <Card>
             <CardHeader>
               <div className="flex items-center gap-2">
-                <Truck size={14} className="text-[var(--accent)]" />
+                <Truck size={14} className="text-(--accent)" />
                 <CardTitle>Expédition</CardTitle>
               </div>
             </CardHeader>
             <Link href={`/shipments/ck_shipment_1`}>
-              <div className="flex items-center justify-between rounded-lg border border-[var(--border)] p-3 hover:border-[var(--accent)] transition-colors cursor-pointer">
+              <div className="flex items-center justify-between rounded-lg border border-(--border) p-3 hover:border-(--accent) transition-colors cursor-pointer">
                 <div>
-                  <p className="text-xs text-[var(--text-muted)]">
+                  <p className="text-xs text-(--text-muted)">
                     Numéro de suivi
                   </p>
-                  <p className="text-sm font-mono font-medium text-[var(--accent)]">
+                  <p className="text-sm font-mono font-medium text-(--accent)">
                     K3J9XQ2P1A
                   </p>
                 </div>

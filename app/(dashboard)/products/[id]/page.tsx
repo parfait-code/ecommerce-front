@@ -1,3 +1,4 @@
+// page.tsx (ProductDetailPage)
 import Link from "next/link";
 import { ArrowLeft, Pencil, Trash2, Package, Star, ImageOff } from "lucide-react";
 import { Button } from "../../../../components/ui/button";
@@ -65,8 +66,8 @@ function StarRating({ rating }: { rating: number }) {
           size={12}
           className={
             s <= rating
-              ? "fill-[var(--warning)] text-[var(--warning)]"
-              : "text-[var(--border)]"
+              ? "fill-(--warning) text-(--warning)"
+              : "text-(--border)"
           }
         />
       ))}
@@ -95,8 +96,8 @@ export default function ProductDetailPage({
               Produits
             </Button>
           </Link>
-          <span className="text-[var(--text-muted)]">/</span>
-          <h1 className="text-xl font-semibold text-[var(--text-primary)]">
+          <span className="text-(--text-muted)">/</span>
+          <h1 className="text-xl font-semibold text-(--text-primary)">
             {product.name}
           </h1>
         </div>
@@ -117,14 +118,14 @@ export default function ProductDetailPage({
         <div className="space-y-4 xl:col-span-2">
           {/* Images */}
           <Card padding="none">
-            <div className="border-b border-[var(--border)] px-5 py-4">
-              <h2 className="text-sm font-semibold text-[var(--text-primary)]">
+            <div className="border-b border-(--border) px-5 py-4">
+              <h2 className="text-sm font-semibold text-(--text-primary)">
                 Images
               </h2>
             </div>
             <div className="p-5">
               {product.images.length === 0 ? (
-                <div className="flex h-40 flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-[var(--border)] text-[var(--text-muted)]">
+                <div className="flex h-40 flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-(--border) text-(--text-muted)">
                   <ImageOff size={24} />
                   <p className="text-sm">Aucune image</p>
                 </div>
@@ -133,7 +134,7 @@ export default function ProductDetailPage({
                   {product.images.map((img, i) => (
                     <div
                       key={i}
-                      className="aspect-square overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-hover)]"
+                      className="aspect-square overflow-hidden rounded-lg border border-(--border) bg-(--bg-hover)"
                     >
                       <img
                         src={img}
@@ -174,15 +175,15 @@ export default function ProductDetailPage({
                 },
               ].map(({ label, value }) => (
                 <div key={label}>
-                  <p className="text-xs text-[var(--text-muted)]">{label}</p>
-                  <div className="mt-1 text-sm font-medium text-[var(--text-primary)]">
+                  <p className="text-xs text-(--text-muted)">{label}</p>
+                  <div className="mt-1 text-sm font-medium text-(--text-primary)">
                     {value}
                   </div>
                 </div>
               ))}
               <div className="col-span-2">
-                <p className="text-xs text-[var(--text-muted)]">Description</p>
-                <p className="mt-1 text-sm text-[var(--text-secondary)] leading-relaxed">
+                <p className="text-xs text-(--text-muted)">Description</p>
+                <p className="mt-1 text-sm text-(--text-secondary) leading-relaxed">
                   {product.description}
                 </p>
               </div>
@@ -191,35 +192,35 @@ export default function ProductDetailPage({
 
           {/* Avis */}
           <Card padding="none">
-            <div className="flex items-center justify-between border-b border-[var(--border)] px-5 py-4">
+            <div className="flex items-center justify-between border-b border-(--border) px-5 py-4">
               <div>
-                <h2 className="text-sm font-semibold text-[var(--text-primary)]">
+                <h2 className="text-sm font-semibold text-(--text-primary)">
                   Avis clients
                 </h2>
-                <p className="text-xs text-[var(--text-muted)] mt-0.5">
+                <p className="text-xs text-(--text-muted) mt-0.5">
                   {mockReviews.length} avis · moyenne{" "}
-                  <span className="text-[var(--warning)] font-medium">
+                  <span className="text-(--warning) font-medium">
                     {avgRating.toFixed(1)}/5
                   </span>
                 </p>
               </div>
             </div>
-            <div className="divide-y divide-[var(--border-subtle)]">
+            <div className="divide-y divide-(--border-subtle)">
               {mockReviews.map((review) => (
                 <div key={review.id} className="px-5 py-4">
                   <div className="flex items-center justify-between mb-1.5">
                     <div className="flex items-center gap-2">
-                      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--accent-muted)] text-[10px] font-semibold text-[var(--accent)]">
+                      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-(--accent-muted) text-[10px] font-semibold text-(--accent)">
                         {review.user?.firstName[0]}
                         {review.user?.lastName[0]}
                       </div>
-                      <span className="text-sm font-medium text-[var(--text-primary)]">
+                      <span className="text-sm font-medium text-(--text-primary)">
                         {review.user?.firstName} {review.user?.lastName}
                       </span>
                     </div>
                     <StarRating rating={review.rating} />
                   </div>
-                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed pl-9">
+                  <p className="text-sm text-(--text-secondary) leading-relaxed pl-9">
                     {review.comment}
                   </p>
                 </div>
@@ -235,13 +236,13 @@ export default function ProductDetailPage({
               <CardTitle>Résumé</CardTitle>
             </CardHeader>
             <div className="space-y-4">
-              <div className="flex items-center gap-3 rounded-lg bg-[var(--bg-hover)] p-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--accent-muted)]">
-                  <Package size={16} className="text-[var(--accent)]" />
+              <div className="flex items-center gap-3 rounded-lg bg-(--bg-hover) p-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-(--accent-muted)">
+                  <Package size={16} className="text-(--accent)" />
                 </div>
                 <div>
-                  <p className="text-xs text-[var(--text-muted)]">Prix de vente</p>
-                  <p className="text-lg font-bold text-[var(--text-primary)] tabular-nums">
+                  <p className="text-xs text-(--text-muted)">Prix de vente</p>
+                  <p className="text-lg font-bold text-(--text-primary) tabular-nums">
                     {formatCurrency(product.price)}
                   </p>
                 </div>
@@ -262,12 +263,12 @@ export default function ProductDetailPage({
                 ].map(({ label, value }) => (
                   <div
                     key={label}
-                    className="flex items-center justify-between py-1.5 border-b border-[var(--border-subtle)] last:border-0"
+                    className="flex items-center justify-between py-1.5 border-b border-(--border-subtle) last:border-0"
                   >
-                    <span className="text-xs text-[var(--text-muted)]">
+                    <span className="text-xs text-(--text-muted)">
                       {label}
                     </span>
-                    <span className="text-xs font-medium text-[var(--text-primary)]">
+                    <span className="text-xs font-medium text-(--text-primary)">
                       {value}
                     </span>
                   </div>
@@ -280,11 +281,11 @@ export default function ProductDetailPage({
             <CardTitle className="mb-3">Statut stock</CardTitle>
             <StockBadge stock={product.stock} />
             <div className="mt-3">
-              <div className="flex justify-between text-xs text-[var(--text-muted)] mb-1">
+              <div className="flex justify-between text-xs text-(--text-muted) mb-1">
                 <span>0</span>
                 <span>100</span>
               </div>
-              <div className="h-2 w-full overflow-hidden rounded-full bg-[var(--border)]">
+              <div className="h-2 w-full overflow-hidden rounded-full bg-(--border)">
                 <div
                   className="h-full rounded-full transition-all"
                   style={{
@@ -298,7 +299,7 @@ export default function ProductDetailPage({
                   }}
                 />
               </div>
-              <p className="mt-2 text-xs text-[var(--text-muted)]">
+              <p className="mt-2 text-xs text-(--text-muted)">
                 {product.stock} unités disponibles
               </p>
             </div>

@@ -56,8 +56,8 @@ export default function ProductsPage() {
       label: "Produit",
       render: (p: Product) => (
         <div>
-          <p className="font-medium text-[var(--text-primary)]">{p.name}</p>
-          <p className="text-xs text-[var(--text-muted)]">ID #{p.id}</p>
+          <p className="font-medium text-(--text-primary)">{p.name}</p>
+          <p className="text-xs text-(--text-muted)">ID #{p.id}</p>
         </div>
       ),
     },
@@ -91,7 +91,7 @@ export default function ProductsPage() {
           <Link href={`/products/${p.id}`}>
             <Button variant="ghost" size="sm" icon={<Pencil size={13} />} />
           </Link>
-          <Button variant="ghost" size="sm" icon={<Trash2 size={13} />} className="hover:text-[var(--danger)]" />
+          <Button variant="ghost" size="sm" icon={<Trash2 size={13} />} className="hover:text-(--danger)" />
         </div>
       ),
     },

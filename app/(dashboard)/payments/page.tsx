@@ -1,3 +1,4 @@
+// page.tsx (PaymentsPage)
 import { PageHeader } from "../../../components/shared/page-header";
 import { DataTable } from "../../../components/tables/data-table";
 import { Badge } from "../../../components/ui/badge";
@@ -29,12 +30,12 @@ export default function PaymentsPage() {
     {
       key: "id",
       label: "Référence",
-      render: (p: Payment) => <span className="font-mono text-xs text-[var(--accent)]">{p.id}</span>,
+      render: (p: Payment) => <span className="font-mono text-xs text-(--accent)">{p.id}</span>,
     },
     {
       key: "orderId",
       label: "Commande",
-      render: (p: Payment) => <span className="font-mono text-xs text-[var(--text-muted)]">{p.orderId}</span>,
+      render: (p: Payment) => <span className="font-mono text-xs text-(--text-muted)">{p.orderId}</span>,
     },
     {
       key: "amount",
@@ -44,7 +45,7 @@ export default function PaymentsPage() {
     {
       key: "method",
       label: "Méthode",
-      render: (p: Payment) => <span className="text-[var(--text-secondary)] text-xs">{methodLabels[p.method]}</span>,
+      render: (p: Payment) => <span className="text-(--text-secondary) text-xs">{methodLabels[p.method]}</span>,
     },
     {
       key: "status",
@@ -57,7 +58,7 @@ export default function PaymentsPage() {
     {
       key: "createdAt",
       label: "Date",
-      render: (p: Payment) => <span className="text-xs text-[var(--text-muted)]">{formatDate(p.createdAt!)}</span>,
+      render: (p: Payment) => <span className="text-xs text-(--text-muted)">{formatDate(p.createdAt!)}</span>,
     },
   ];
 
