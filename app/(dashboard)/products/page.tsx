@@ -1,7 +1,7 @@
 // page.tsx (ProductsPage)
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { PageHeader } from "../../../components/shared/page-header";
 import { DataTable } from "../../../components/tables/data-table";
@@ -9,17 +9,25 @@ import { Badge } from "../../../components/ui/badge";
 import { Button } from "../../../components/ui/button";
 import { ConfirmDialog } from "../../../components/ui/confirm-dialog";
 import { formatCurrency } from "../../../lib/utils";
-import { Eye, Pencil, Trash2 } from "lucide-react";
+import { Eye, Pencil, Trash2, Loader2 } from "lucide-react";
 import type { Product } from "../../../types";
+import { productService } from "../../../services/product.service";
+import { useAuthStore } from "../../../store/auth.store";
 
-const PAGE_SIZE = 10; // côté API : correspond au paramètre "limit"
+// Constantes de pagination
+const DEFAULT_PAGE = 1;
+const DEFAULT_LIMIT = 10;
 
-const mockProducts: Product[] = [
-  { id: 1, name: "T-shirt en coton", description: "T-shirt 100% coton, coupe regular", price: 9990, category: "Vêtements", stock: 50, images: [], createdAt: "2026-06-01T10:00:00Z", updatedAt: "2026-06-01T10:00:00Z" },
-  { id: 2, name: "Casquette noire", description: "Casquette snapback", price: 5990, category: "Accessoires", stock: 3, images: [], createdAt: "2026-06-05T10:00:00Z", updatedAt: "2026-06-05T10:00:00Z" },
-  { id: 3, name: "Sac à dos Sport", description: "Sac à dos 30L", price: 24990, category: "Bagagerie", stock: 0, images: [], createdAt: "2026-06-10T10:00:00Z", updatedAt: "2026-06-10T10:00:00Z" },
-];
+// Types pour la réponse API paginée
+interface PaginatedResponse<T> {
+  items: T[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
 
+// Composant de badge de stock
 function StockBadge({ stock }: { stock: number }) {
   if (stock === 0) return <Badge variant="danger">Rupture</Badge>;
   if (stock < 10) return <Badge variant="warning">{stock} restants</Badge>;
@@ -27,69 +35,123 @@ function StockBadge({ stock }: { stock: number }) {
 }
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState<Product[]>(mockProducts);
-  const [currentPage, setCurrentPage] = useState(1);
+  // États
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(DEFAULT_PAGE);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
   const [productToDelete, setProductToDelete] = useState<Product | null>(null);
   const [deleting, setDeleting] = useState(false);
 
-  const totalPages = Math.max(1, Math.ceil(products.length / PAGE_SIZE));
-  const paginatedProducts = products.slice(
-    (currentPage - 1) * PAGE_SIZE,
-    currentPage * PAGE_SIZE
-  );
+  // Récupération du token pour les appels API
+  const { token } = useAuthStore();
 
-  async function handleConfirmDelete() {
+  // Récupération des produits
+  const fetchProducts = async (page: number) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      // Utilisation du productService comme pour authService
+      const data = await productService.getProducts(page, DEFAULT_LIMIT);
+      
+      setProducts(data.items);
+      setTotalPages(data.totalPages);
+      setTotalItems(data.total);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Une erreur est survenue");
+      setProducts([]);
+      setTotalPages(1);
+      setTotalItems(0);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Chargement initial et changement de page
+  useEffect(() => {
+    fetchProducts(currentPage);
+  }, [currentPage]);
+
+  // Suppression d'un produit
+  const handleDeleteProduct = async () => {
     if (!productToDelete) return;
+
     setDeleting(true);
-    // TODO: appel API -> DELETE /product/:productId
-    await new Promise((r) => setTimeout(r, 600));
+    try {
+      // Utilisation du productService pour la suppression
+      await productService.deleteProduct(productToDelete.id);
+      
+      // Recharger la page courante
+      await fetchProducts(currentPage);
 
-    const remaining = products.filter((p) => p.id !== productToDelete.id);
-    setProducts(remaining);
-    setDeleting(false);
-    setProductToDelete(null);
+      // Ajuster la page si la dernière page est vide
+      const remainingItems = totalItems - 1;
+      const maxPage = Math.max(1, Math.ceil(remainingItems / DEFAULT_LIMIT));
+      if (currentPage > maxPage) {
+        setCurrentPage(maxPage);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Erreur lors de la suppression");
+    } finally {
+      setDeleting(false);
+      setProductToDelete(null);
+    }
+  };
 
-    const newTotalPages = Math.max(1, Math.ceil(remaining.length / PAGE_SIZE));
-    setCurrentPage((prev) => Math.min(prev, newTotalPages));
-  }
-
+  // Colonnes du tableau
   const columns = [
     {
       key: "name",
       label: "Produit",
-      render: (p: Product) => (
+      render: (product: Product) => (
         <div>
-          <p className="font-medium text-(--text-primary)">{p.name}</p>
-          <p className="text-xs text-(--text-muted)">ID #{p.id}</p>
+          <p className="font-medium text-(--text-primary)">{product.name}</p>
+          <p className="text-xs text-(--text-muted)">ID #{product.id}</p>
         </div>
       ),
     },
     {
       key: "category",
       label: "Catégorie",
-      render: (p: Product) => <Badge variant="default">{p.category}</Badge>,
+      render: (product: Product) => (
+        <Badge variant="default">{product.category}</Badge>
+      ),
     },
     {
       key: "price",
       label: "Prix",
-      render: (p: Product) => (
-        <span className="tabular-nums font-medium">{formatCurrency(p.price)}</span>
+      render: (product: Product) => (
+        <span className="tabular-nums font-medium">
+          {formatCurrency(product.price)}
+        </span>
       ),
     },
     {
       key: "stock",
       label: "Stock",
-      render: (p: Product) => <StockBadge stock={p.stock} />,
+      render: (product: Product) => <StockBadge stock={product.stock} />,
+    },
+    {
+      key: "images",
+      label: "Images",
+      render: (product: Product) => (
+        <span className="text-sm text-(--text-muted)">
+          {product.images?.length || 0} image(s)
+        </span>
+      ),
     },
     {
       key: "actions",
       label: "",
-      render: (p: Product) => (
+      render: (product: Product) => (
         <div className="flex items-center gap-1 justify-end">
-          <Link href={`/products/${p.id}`}>
+          <Link href={`/products/${product.id}`}>
             <Button variant="ghost" size="sm" icon={<Eye size={13} />} />
           </Link>
-          <Link href={`/products/${p.id}`}>
+          <Link href={`/products/${product.id}/edit`}>
             <Button variant="ghost" size="sm" icon={<Pencil size={13} />} />
           </Link>
           <Button
@@ -97,32 +159,64 @@ export default function ProductsPage() {
             size="sm"
             icon={<Trash2 size={13} />}
             className="hover:text-(--danger)"
-            onClick={() => setProductToDelete(p)}
+            onClick={() => setProductToDelete(product)}
           />
         </div>
       ),
     },
   ];
 
+  // État de chargement
+  if (loading && currentPage === DEFAULT_PAGE) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-(--primary)" />
+          <p className="text-(--text-muted)">Chargement des produits...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // État d'erreur
+  if (error && products.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <div className="text-center">
+          <div className="text-(--danger) text-lg font-medium mb-2">
+            Erreur de chargement
+          </div>
+          <p className="text-(--text-muted)">{error}</p>
+          <Button
+            className="mt-4"
+            onClick={() => fetchProducts(currentPage)}
+          >
+            Réessayer
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <PageHeader
         title="Produits"
-        description={`${products.length} produits au catalogue`}
+        description={`${totalItems} produit${totalItems > 1 ? "s" : ""} au catalogue`}
         createHref="/products/create"
         createLabel="Nouveau produit"
       />
 
       <DataTable
         columns={columns}
-        data={paginatedProducts}
-        keyExtractor={(p) => p.id}
+        data={products}
+        keyExtractor={(product) => product.id}
         emptyMessage="Aucun produit trouvé"
         pagination={{
           currentPage,
           totalPages,
-          totalItems: products.length,
-          pageSize: PAGE_SIZE,
+          totalItems,
+          pageSize: DEFAULT_LIMIT,
           onPageChange: setCurrentPage,
         }}
       />
@@ -138,7 +232,7 @@ export default function ProductsPage() {
         confirmLabel="Supprimer"
         cancelLabel="Annuler"
         loading={deleting}
-        onConfirm={handleConfirmDelete}
+        onConfirm={handleDeleteProduct}
         onCancel={() => setProductToDelete(null)}
       />
     </div>
