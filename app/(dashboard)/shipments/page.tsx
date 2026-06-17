@@ -61,15 +61,15 @@ export default function ShipmentsPage() {
     {
       key: "trackingNumber",
       label: "Numéro de suivi",
-      render: (s: Shipment) => <span className="font-mono text-sm text-[var(--accent)]">{s.trackingNumber}</span>,
+      render: (s: Shipment) => <span className="font-mono text-sm text-(--accent)">{s.trackingNumber}</span>,
     },
     {
       key: "recipient",
       label: "Destinataire",
       render: (s: Shipment) => (
         <div>
-          <p className="font-medium text-[var(--text-primary)]">{s.recipientName}</p>
-          <p className="text-xs text-[var(--text-muted)] truncate max-w-[200px]">{s.recipientAddress}</p>
+          <p className="font-medium text-(--text-primary)">{s.recipientName}</p>
+          <p className="text-xs text-(--text-muted) truncate max-w-50">{s.recipientAddress}</p>
         </div>
       ),
     },
@@ -84,7 +84,7 @@ export default function ShipmentsPage() {
     {
       key: "estimatedDeliveryDate",
       label: "Livraison estimée",
-      render: (s: Shipment) => <span className="text-xs text-[var(--text-muted)]">{formatDate(s.estimatedDeliveryDate)}</span>,
+      render: (s: Shipment) => <span className="text-xs text-(--text-muted)">{formatDate(s.estimatedDeliveryDate)}</span>,
     },
     {
       key: "actions",

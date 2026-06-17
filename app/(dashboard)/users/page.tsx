@@ -1,3 +1,4 @@
+// page.tsx (UsersPage)
 import { PageHeader } from "../../../components/shared/page-header";
 import { DataTable } from "../../../components/tables/data-table";
 import { Badge } from "../../../components/ui/badge";
@@ -36,12 +37,12 @@ export default function UsersPage() {
       label: "Utilisateur",
       render: (u: User) => (
         <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--accent-muted)] text-xs font-semibold text-[var(--accent)]">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-(--accent-muted) text-xs font-semibold text-(--accent)">
             {u.firstName[0]}{u.lastName[0]}
           </div>
           <div>
-            <p className="font-medium text-[var(--text-primary)]">{u.firstName} {u.lastName}</p>
-            <p className="text-xs text-[var(--text-muted)]">@{u.username}</p>
+            <p className="font-medium text-(--text-primary)">{u.firstName} {u.lastName}</p>
+            <p className="text-xs text-(--text-muted)">@{u.username}</p>
           </div>
         </div>
       ),
@@ -49,7 +50,7 @@ export default function UsersPage() {
     {
       key: "email",
       label: "Email",
-      render: (u: User) => <span className="text-[var(--text-secondary)]">{u.email}</span>,
+      render: (u: User) => <span className="text-(--text-secondary)">{u.email}</span>,
     },
     {
       key: "role",
@@ -64,7 +65,7 @@ export default function UsersPage() {
       key: "createdAt",
       label: "Inscription",
       render: (u: User) => (
-        <span className="text-xs text-[var(--text-muted)]">{formatDate(u.createdAt!)}</span>
+        <span className="text-xs text-(--text-muted)">{formatDate(u.createdAt!)}</span>
       ),
     },
     {
@@ -76,7 +77,7 @@ export default function UsersPage() {
             <Button variant="ghost" size="sm" icon={<Eye size={13} />} />
           </Link>
           <Button variant="ghost" size="sm" icon={<Shield size={13} />} />
-          <Button variant="ghost" size="sm" icon={<Trash2 size={13} />} className="hover:text-[var(--danger)]" />
+          <Button variant="ghost" size="sm" icon={<Trash2 size={13} />} className="hover:text-(--danger)" />
         </div>
       ),
     },

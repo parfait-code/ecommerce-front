@@ -1,3 +1,4 @@
+// page.tsx (UserDetailPage)
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -116,8 +117,8 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
               Utilisateurs
             </Button>
           </Link>
-          <span className="text-[var(--text-muted)]">/</span>
-          <h1 className="text-xl font-semibold text-[var(--text-primary)]">
+          <span className="text-(--text-muted)">/</span>
+          <h1 className="text-xl font-semibold text-(--text-primary)">
             {user.firstName} {user.lastName}
           </h1>
         </div>
@@ -142,34 +143,34 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
           {/* Profil */}
           <Card>
             <div className="flex items-start gap-4">
-              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-[var(--accent-muted)] text-xl font-bold text-[var(--accent)]">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-(--accent-muted) text-xl font-bold text-(--accent)">
                 {getInitials(`${user.firstName} ${user.lastName}`)}
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-2">
-                  <h2 className="text-base font-semibold text-[var(--text-primary)]">
+                  <h2 className="text-base font-semibold text-(--text-primary)">
                     {user.firstName} {user.lastName}
                   </h2>
                   <Badge variant={roleColors[user.role] || "default"}>
                     {roleLabels[user.role] || user.role}
                   </Badge>
                 </div>
-                <p className="text-sm text-[var(--text-muted)] mt-0.5">
+                <p className="text-sm text-(--text-muted) mt-0.5">
                   @{user.username}
                 </p>
                 <div className="mt-3 grid grid-cols-2 gap-3">
-                  <div className="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
-                    <Mail size={13} className="text-[var(--text-muted)]" />
+                  <div className="flex items-center gap-2 text-sm text-(--text-secondary)">
+                    <Mail size={13} className="text-(--text-muted)" />
                     {user.email}
                   </div>
                   {user.age && (
-                    <div className="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
-                      <Phone size={13} className="text-[var(--text-muted)]" />
+                    <div className="flex items-center gap-2 text-sm text-(--text-secondary)">
+                      <Phone size={13} className="text-(--text-muted)" />
                       {user.age} ans
                     </div>
                   )}
-                  <div className="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
-                    <Shield size={13} className="text-[var(--text-muted)]" />
+                  <div className="flex items-center gap-2 text-sm text-(--text-secondary)">
+                    <Shield size={13} className="text-(--text-muted)" />
                     Inscrit le {formatDate(user.createdAt!)}
                   </div>
                 </div>
@@ -179,28 +180,28 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
 
           {/* Commandes */}
           <Card padding="none">
-            <div className="flex items-center gap-2 border-b border-[var(--border)] px-5 py-4">
-              <ShoppingCart size={14} className="text-[var(--accent)]" />
-              <h2 className="text-sm font-semibold text-[var(--text-primary)]">
+            <div className="flex items-center gap-2 border-b border-(--border) px-5 py-4">
+              <ShoppingCart size={14} className="text-(--accent)" />
+              <h2 className="text-sm font-semibold text-(--text-primary)">
                 Commandes ({mockOrders.length})
               </h2>
             </div>
-            <div className="divide-y divide-[var(--border-subtle)]">
+            <div className="divide-y divide-(--border-subtle)">
               {mockOrders.map((order) => {
                 const s = orderStatusConfig[order.status];
                 return (
                   <Link key={order.id} href={`/orders/${order.id}`}>
-                    <div className="flex items-center justify-between px-5 py-3 hover:bg-[var(--bg-hover)] transition-colors">
+                    <div className="flex items-center justify-between px-5 py-3 hover:bg-(--bg-hover) transition-colors">
                       <div>
-                        <p className="text-sm font-mono text-[var(--accent)]">
+                        <p className="text-sm font-mono text-(--accent)">
                           {order.id}
                         </p>
-                        <p className="text-xs text-[var(--text-muted)] mt-0.5">
+                        <p className="text-xs text-(--text-muted) mt-0.5">
                           {formatDate(order.createdAt!)}
                         </p>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="text-sm font-semibold tabular-nums text-[var(--text-primary)]">
+                        <span className="text-sm font-semibold tabular-nums text-(--text-primary)">
                           {formatCurrency(order.totalAmount)}
                         </span>
                         <Badge variant={s.variant}>{s.label}</Badge>
@@ -216,7 +217,7 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
           <Card>
             <CardHeader>
               <div className="flex items-center gap-2">
-                <MapPin size={14} className="text-[var(--accent)]" />
+                <MapPin size={14} className="text-(--accent)" />
                 <CardTitle>Adresses ({mockAddresses.length})</CardTitle>
               </div>
             </CardHeader>
@@ -226,8 +227,8 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
                   key={addr.id}
                   className={`rounded-lg border p-3 ${
                     addr.isDefault
-                      ? "border-[var(--accent)] bg-[var(--accent-muted)]"
-                      : "border-[var(--border)] bg-[var(--bg-hover)]"
+                      ? "border-(--accent) bg-(--accent-muted)"
+                      : "border-(--border) bg-(--bg-hover)"
                   }`}
                 >
                   {addr.isDefault && (
@@ -235,10 +236,10 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
                       Principale
                     </Badge>
                   )}
-                  <p className="text-sm text-[var(--text-primary)]">
+                  <p className="text-sm text-(--text-primary)">
                     {addr.street}
                   </p>
-                  <p className="text-xs text-[var(--text-muted)] mt-0.5">
+                  <p className="text-xs text-(--text-muted) mt-0.5">
                     {addr.city}, {addr.country} — {addr.postalCode}
                   </p>
                 </div>
@@ -258,34 +259,34 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
                   icon: ShoppingCart,
                   label: "Commandes",
                   value: mockOrders.length.toString(),
-                  color: "text-[var(--accent)]",
-                  bg: "bg-[var(--accent-muted)]",
+                  color: "text-(--accent)",
+                  bg: "bg-(--accent-muted)",
                 },
                 {
                   icon: CreditCard,
                   label: "Total dépensé",
                   value: formatCurrency(totalSpent),
-                  color: "text-[var(--success)]",
-                  bg: "bg-[var(--success-muted)]",
+                  color: "text-(--success)",
+                  bg: "bg-(--success-muted)",
                 },
                 {
                   icon: MapPin,
                   label: "Adresses",
                   value: mockAddresses.length.toString(),
-                  color: "text-[var(--warning)]",
-                  bg: "bg-[var(--warning-muted)]",
+                  color: "text-(--warning)",
+                  bg: "bg-(--warning-muted)",
                 },
               ].map(({ icon: Icon, label, value, color, bg }) => (
                 <div
                   key={label}
-                  className="flex items-center gap-3 rounded-lg bg-[var(--bg-hover)] p-3"
+                  className="flex items-center gap-3 rounded-lg bg-(--bg-hover) p-3"
                 >
                   <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${bg}`}>
                     <Icon size={14} className={color} />
                   </div>
                   <div className="flex-1">
-                    <p className="text-xs text-[var(--text-muted)]">{label}</p>
-                    <p className="text-sm font-semibold text-[var(--text-primary)]">
+                    <p className="text-xs text-(--text-muted)">{label}</p>
+                    <p className="text-sm font-semibold text-(--text-primary)">
                       {value}
                     </p>
                   </div>
@@ -306,10 +307,10 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
               ].map(({ label, value }) => (
                 <div
                   key={label}
-                  className="flex items-center justify-between py-1.5 border-b border-[var(--border-subtle)] last:border-0"
+                  className="flex items-center justify-between py-1.5 border-b border-(--border-subtle) last:border-0"
                 >
-                  <span className="text-xs text-[var(--text-muted)]">{label}</span>
-                  <span className="text-xs font-medium text-[var(--text-primary)]">
+                  <span className="text-xs text-(--text-muted)">{label}</span>
+                  <span className="text-xs font-medium text-(--text-primary)">
                     {value}
                   </span>
                 </div>
@@ -326,8 +327,8 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
                   key={role}
                   className={`w-full rounded-lg border px-3 py-2 text-left text-xs font-medium transition-colors ${
                     user.role === role
-                      ? "border-[var(--accent)] bg-[var(--accent-muted)] text-[var(--accent)]"
-                      : "border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                      ? "border-(--accent) bg-(--accent-muted) text-(--accent)"
+                      : "border-(--border) text-(--text-secondary) hover:border-(--accent) hover:text-(--accent)"
                   }`}
                 >
                   {roleLabels[role] || role}

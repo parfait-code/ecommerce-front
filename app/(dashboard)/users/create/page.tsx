@@ -1,3 +1,4 @@
+// page.tsx (UserCreatePage)
 "use client";
 
 import { useState } from "react";
@@ -52,8 +53,8 @@ export default function UserCreatePage() {
               Utilisateurs
             </Button>
           </Link>
-          <span className="text-[var(--text-muted)]">/</span>
-          <h1 className="text-xl font-semibold text-[var(--text-primary)]">
+          <span className="text-(--text-muted)">/</span>
+          <h1 className="text-xl font-semibold text-(--text-primary)">
             Nouvel utilisateur
           </h1>
         </div>
@@ -122,23 +123,23 @@ export default function UserCreatePage() {
                   onClick={() => setSelectedRole(role.value)}
                   className={`w-full rounded-lg border p-3 text-left transition-colors ${
                     selectedRole === role.value
-                      ? "border-[var(--accent)] bg-[var(--accent-muted)]"
-                      : "border-[var(--border)] hover:border-[var(--accent)]"
+                      ? "border-(--accent) bg-(--accent-muted)"
+                      : "border-(--border) hover:border-(--accent)"
                   }`}
                 >
                   <div className="flex items-center justify-between">
                     <p className={`text-sm font-medium ${
                       selectedRole === role.value
-                        ? "text-[var(--accent)]"
-                        : "text-[var(--text-primary)]"
+                        ? "text-(--accent)"
+                        : "text-(--text-primary)"
                     }`}>
                       {role.label}
                     </p>
                     {selectedRole === role.value && (
-                      <div className="h-2 w-2 rounded-full bg-[var(--accent)]" />
+                      <div className="h-2 w-2 rounded-full bg-(--accent)" />
                     )}
                   </div>
-                  <p className="text-xs text-[var(--text-muted)] mt-0.5">
+                  <p className="text-xs text-(--text-muted) mt-0.5">
                     {role.desc}
                   </p>
                 </button>
@@ -151,14 +152,14 @@ export default function UserCreatePage() {
             <Card>
               <CardTitle className="mb-3">Aperçu</CardTitle>
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--accent-muted)] font-bold text-[var(--accent)]">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-(--accent-muted) font-bold text-(--accent)">
                   {form.firstName[0]}{form.lastName?.[0]}
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-[var(--text-primary)]">
+                  <p className="text-sm font-medium text-(--text-primary)">
                     {form.firstName} {form.lastName}
                   </p>
-                  <p className="text-xs text-[var(--text-muted)]">
+                  <p className="text-xs text-(--text-muted)">
                     @{form.username || "—"} · {ROLES.find(r => r.value === selectedRole)?.label}
                   </p>
                 </div>
