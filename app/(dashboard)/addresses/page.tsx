@@ -1,3 +1,4 @@
+// page.tsx (AddressesPage)
 import { PageHeader } from "../../../components/shared/page-header";
 import { DataTable } from "../../../components/tables/data-table";
 import { Badge } from "../../../components/ui/badge";
@@ -16,21 +17,21 @@ export default function AddressesPage() {
       label: "Adresse",
       render: (a: Address) => (
         <div>
-          <p className="font-medium text-[var(--text-primary)]">{a.street}</p>
-          <p className="text-xs text-[var(--text-muted)]">{a.city}, {a.country} — {a.postalCode}</p>
+          <p className="font-medium text-(--text-primary)">{a.street}</p>
+          <p className="text-xs text-(--text-muted)">{a.city}, {a.country} — {a.postalCode}</p>
         </div>
       ),
     },
     {
       key: "userId",
       label: "Utilisateur",
-      render: (a: Address) => <span className="text-[var(--text-secondary)]">User #{a.userId}</span>,
+      render: (a: Address) => <span className="text-(--text-secondary)">User #{a.userId}</span>,
     },
     {
       key: "isDefault",
       label: "Défaut",
       render: (a: Address) =>
-        a.isDefault ? <Badge variant="accent">Principale</Badge> : <span className="text-[var(--text-muted)] text-xs">—</span>,
+        a.isDefault ? <Badge variant="accent">Principale</Badge> : <span className="text-(--text-muted) text-xs">—</span>,
     },
   ];
 

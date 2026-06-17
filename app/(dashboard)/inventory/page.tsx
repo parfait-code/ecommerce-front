@@ -1,3 +1,4 @@
+// page.tsx (InventoryPage)
 import { PageHeader } from "../../../components/shared/page-header";
 import { DataTable } from "../../../components/tables/data-table";
 import { Badge } from "../../../components/ui/badge";
@@ -51,8 +52,8 @@ export default function InventoryPage() {
       label: "Produit",
       render: (i: InventoryRow) => (
         <div>
-          <p className="font-medium text-[var(--text-primary)]">{i.product.name}</p>
-          <p className="text-xs text-[var(--text-muted)]">{i.product.category}</p>
+          <p className="font-medium text-(--text-primary)">{i.product.name}</p>
+          <p className="text-xs text-(--text-muted)">{i.product.category}</p>
         </div>
       ),
     },
@@ -61,8 +62,8 @@ export default function InventoryPage() {
       label: "Entrepôt",
       render: (i: InventoryRow) => (
         <div>
-          <p className="text-sm text-[var(--text-secondary)]">{i.warehouse.name}</p>
-          <p className="text-xs text-[var(--text-muted)]">{i.warehouse.location}</p>
+          <p className="text-sm text-(--text-secondary)">{i.warehouse.name}</p>
+          <p className="text-xs text-(--text-muted)">{i.warehouse.location}</p>
         </div>
       ),
     },

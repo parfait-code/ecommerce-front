@@ -1,3 +1,4 @@
+// page.tsx (DashboardPage)
 import {
   Package,
   ShoppingCart,
@@ -16,10 +17,10 @@ export default function DashboardPage() {
     <div className="space-y-6">
       {/* Page title */}
       <div>
-        <h1 className="text-xl font-semibold text-[var(--text-primary)]">
+        <h1 className="text-xl font-semibold text-(--text-primary)">
           Dashboard
         </h1>
-        <p className="mt-0.5 text-sm text-[var(--text-muted)]">
+        <p className="mt-0.5 text-sm text-(--text-muted)">
           Vue d&apos;ensemble de la plateforme
         </p>
       </div>

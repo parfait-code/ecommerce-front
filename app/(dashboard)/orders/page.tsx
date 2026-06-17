@@ -52,14 +52,14 @@ export default function OrdersPage() {
       key: "id",
       label: "Numéro",
       render: (o: Order) => (
-        <span className="font-mono text-xs text-[var(--accent)]">{o.id}</span>
+        <span className="font-mono text-xs text-(--accent)">{o.id}</span>
       ),
     },
     {
       key: "customer",
       label: "Client",
       render: (o: Order) => (
-        <span className="text-[var(--text-secondary)]">User #{o.userId}</span>
+        <span className="text-(--text-secondary)">User #{o.userId}</span>
       ),
     },
     {
@@ -81,7 +81,7 @@ export default function OrdersPage() {
       key: "createdAt",
       label: "Date",
       render: (o: Order) => (
-        <span className="text-xs text-[var(--text-muted)]">
+        <span className="text-xs text-(--text-muted)">
           {formatDate(o.createdAt!)}
         </span>
       ),
