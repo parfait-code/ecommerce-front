@@ -17,7 +17,7 @@ export function Card({ children, className, padding = "md" }: CardProps) {
   return (
     <div
       className={cn(
-        "rounded-xl border border-[var(--border)] bg-[var(--bg-card)]",
+        "rounded-xl border border-(--border) bg-(--bg-card)",
         paddingStyles[padding],
         className
       )}
@@ -49,7 +49,7 @@ export function CardTitle({
   className?: string;
 }) {
   return (
-    <h3 className={cn("text-sm font-semibold text-[var(--text-primary)]", className)}>
+    <h3 className={cn("text-sm font-semibold text-(--text-primary)", className)}>
       {children}
     </h3>
   );

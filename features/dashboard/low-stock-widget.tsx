@@ -1,3 +1,4 @@
+// low-stock-widget.tsx
 import { Card, CardHeader, CardTitle } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
 import { AlertTriangle } from "lucide-react";
@@ -24,22 +25,22 @@ export function LowStockWidget() {
         {lowStockItems.map((item) => (
           <div
             key={item.id}
-            className="flex items-center justify-between rounded-lg p-2.5 hover:bg-[var(--bg-hover)] transition-colors"
+            className="flex items-center justify-between rounded-lg p-2.5 hover:bg-(--bg-hover) transition-colors"
           >
             <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-medium text-[var(--text-primary)]">
+              <p className="truncate text-sm font-medium text-(--text-primary)">
                 {item.name}
               </p>
-              <p className="text-xs text-[var(--text-muted)]">{item.sku}</p>
+              <p className="text-xs text-(--text-muted)">{item.sku}</p>
             </div>
             <div className="ml-3 flex items-center gap-2">
-              <div className="h-1.5 w-16 overflow-hidden rounded-full bg-[var(--border)]">
+              <div className="h-1.5 w-16 overflow-hidden rounded-full bg-(--border)">
                 <div
-                  className="h-full rounded-full bg-[var(--danger)]"
+                  className="h-full rounded-full bg-(--danger)"
                   style={{ width: `${(item.qty / item.threshold) * 100}%` }}
                 />
               </div>
-              <span className="w-6 text-right text-xs font-semibold text-[var(--danger)]">
+              <span className="w-6 text-right text-xs font-semibold text-(--danger)">
                 {item.qty}
               </span>
             </div>

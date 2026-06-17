@@ -1,3 +1,4 @@
+// header.tsx
 "use client";
 
 import { usePathname } from "next/navigation";
@@ -18,19 +19,19 @@ export function Header() {
   ];
 
   return (
-    <header className="fixed right-0 left-60 top-0 z-30 flex h-14 items-center justify-between border-b border-[var(--border)] bg-[var(--bg-surface)] px-6">
+    <header className="fixed right-0 left-60 top-0 z-30 flex h-14 items-center justify-between border-b border-(--border) bg-(--bg-surface) px-6">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-1.5 text-sm">
         {breadcrumbs.map((crumb, i) => (
           <span key={crumb.href} className="flex items-center gap-1.5">
             {i > 0 && (
-              <span className="text-[var(--text-muted)]">/</span>
+              <span className="text-(--text-muted)">/</span>
             )}
             <span
               className={
                 i === breadcrumbs.length - 1
-                  ? "font-medium text-[var(--text-primary)]"
-                  : "text-[var(--text-muted)]"
+                  ? "font-medium text-(--text-primary)"
+                  : "text-(--text-muted)"
               }
             >
               {crumb.label}
@@ -41,12 +42,12 @@ export function Header() {
 
       {/* Actions */}
       <div className="flex items-center gap-2">
-        <button className="flex h-8 w-8 items-center justify-center rounded-lg text-[var(--text-muted)] transition-colors hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)]">
+        <button className="flex h-8 w-8 items-center justify-center rounded-lg text-(--text-muted) transition-colors hover:bg-(--bg-hover) hover:text-(--text-primary)">
           <Search size={16} />
         </button>
-        <button className="relative flex h-8 w-8 items-center justify-center rounded-lg text-[var(--text-muted)] transition-colors hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)]">
+        <button className="relative flex h-8 w-8 items-center justify-center rounded-lg text-(--text-muted) transition-colors hover:bg-(--bg-hover) hover:text-(--text-primary)">
           <Bell size={16} />
-          <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
+          <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-(--accent)" />
         </button>
       </div>
     </header>

@@ -20,11 +20,11 @@ export function PageHeader({
   return (
     <div className="flex items-start justify-between">
       <div>
-        <h1 className="text-xl font-semibold text-[var(--text-primary)]">
+        <h1 className="text-xl font-semibold text-(--text-primary)">
           {title}
         </h1>
         {description && (
-          <p className="mt-0.5 text-sm text-[var(--text-muted)]">
+          <p className="mt-0.5 text-sm text-(--text-muted)">
             {description}
           </p>
         )}

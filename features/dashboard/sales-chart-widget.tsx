@@ -36,7 +36,7 @@ export function SalesChartWidget() {
     <Card>
       <CardHeader>
         <CardTitle>Ventes mensuelles</CardTitle>
-        <span className="text-xs text-[var(--text-muted)]">2026 · XAF</span>
+        <span className="text-xs text-(--text-muted)">2026 · XAF</span>
       </CardHeader>
       <ResponsiveContainer width="100%" height={220}>
         <AreaChart data={data} margin={{ top: 4, right: 4, left: 0, bottom: 0 }}>

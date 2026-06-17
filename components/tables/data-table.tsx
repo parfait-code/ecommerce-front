@@ -1,3 +1,4 @@
+// data-table.tsx
 import { cn } from "../../lib/utils";
 
 interface Column<T> {
@@ -21,15 +22,15 @@ export function DataTable<T>({
   emptyMessage = "Aucun résultat",
 }: DataTableProps<T>) {
   return (
-    <div className="overflow-x-auto rounded-xl border border-[var(--border)] bg-[var(--bg-card)]">
+    <div className="overflow-x-auto rounded-xl border border-(--border) bg-(--bg-card)">
       <table className="w-full">
         <thead>
-          <tr className="border-b border-[var(--border)]">
+          <tr className="border-b border-(--border)">
             {columns.map((col) => (
               <th
                 key={col.key}
                 className={cn(
-                  "px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wide text-[var(--text-muted)]",
+                  "px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wide text-(--text-muted)",
                   col.className
                 )}
               >
@@ -43,7 +44,7 @@ export function DataTable<T>({
             <tr>
               <td
                 colSpan={columns.length}
-                className="px-5 py-12 text-center text-sm text-[var(--text-muted)]"
+                className="px-5 py-12 text-center text-sm text-(--text-muted)"
               >
                 {emptyMessage}
               </td>
@@ -52,12 +53,12 @@ export function DataTable<T>({
             data.map((row) => (
               <tr
                 key={keyExtractor(row)}
-                className="border-b border-[var(--border-subtle)] transition-colors hover:bg-[var(--bg-hover)] last:border-0"
+                className="border-b border-(--border-subtle) transition-colors hover:bg-(--bg-hover) last:border-0"
               >
                 {columns.map((col) => (
                   <td
                     key={col.key}
-                    className={cn("px-5 py-3 text-sm text-[var(--text-primary)]", col.className)}
+                    className={cn("px-5 py-3 text-sm text-(--text-primary)", col.className)}
                   >
                     {col.render
                       ? col.render(row)
