@@ -58,7 +58,7 @@ export interface OrderItem {
   productId: number;
   quantity: number;
   price: number;
-  product?: Product;
+  product?: Pick<Product, "id" | "name" | "images">;
 }
 
 export interface ShippingAddress {
@@ -71,6 +71,7 @@ export interface ShippingAddress {
 export interface Order {
   id: string;
   userId: number;
+  user?: Pick<User, "id" | "username" | "email" | "firstName" | "lastName">;
   status: OrderStatus;
   totalAmount: number;
   shippingAddress: ShippingAddress;
@@ -88,7 +89,12 @@ export type PaymentMethod =
   | "STRIPE"
   | "CINETPAY";
 
-export type PaymentStatus = "PENDING" | "COMPLETED" | "FAILED" | "REFUNDED";
+export type PaymentStatus =
+  | "PENDING"
+  | "COMPLETED"
+  | "FAILED"
+  | "REFUNDED"
+  | "CANCELLED";
 
 export interface Payment {
   id: string;
@@ -100,6 +106,9 @@ export interface Payment {
   currency: string;
   notes?: string;
   createdAt?: string;
+  updatedAt?: string;
+  order?: Order;
+  user?: Pick<User, "id" | "username" | "email" | "firstName" | "lastName">;
 }
 
 // ─── Shipment ─────────────────────────────────────────────────────────────────
@@ -126,11 +135,14 @@ export interface Shipment {
   recipientName: string;
   recipientAddress: string;
   weight: number;
+  dimensions?: { length: number; width: number; height: number };
   status: ShipmentStatus;
   trackingNumber: string;
   estimatedDeliveryDate: string;
   trackingEvents: TrackingEvent[];
   label?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 // ─── Warehouse ────────────────────────────────────────────────────────────────
@@ -140,6 +152,9 @@ export interface Warehouse {
   name: string;
   location: string;
   capacity: number;
+  totalUnits?: number;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 // ─── Inventory ────────────────────────────────────────────────────────────────
@@ -149,8 +164,12 @@ export interface InventoryItem {
   productId: number;
   warehouseId: string;
   quantity: number;
-  product?: Product;
+  product?: Pick<Product, "id" | "name" | "category" | "price"> & {
+    images?: string[];
+  };
   warehouse?: Warehouse;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 // ─── Address ──────────────────────────────────────────────────────────────────
@@ -174,4 +193,47 @@ export interface Review {
   rating: number;
   comment: string;
   user?: Pick<User, "id" | "username" | "firstName" | "lastName">;
+}
+
+// ─── Dashboard ────────────────────────────────────────────────────────────────
+
+export interface DashboardStats {
+  products: {
+    total: number;
+    addedThisMonth: number;
+  };
+  orders: {
+    total: number;
+    thisMonth: number;
+    trend: number;
+  };
+  users: {
+    total: number;
+    active: number;
+  };
+  payments: {
+    totalAmountThisMonth: number;
+    currency: string;
+    trend: number;
+  };
+  inventory: {
+    lowStockCount: number;
+  };
+  shipments: {
+    inProgress: number;
+    trend: number;
+  };
+}
+
+export interface SalesChartPoint {
+  label: string;
+  amount: number;
+  orderCount: number;
+}
+
+export interface SalesChartData {
+  period: string;
+  year: number;
+  currency: string;
+  points: SalesChartPoint[];
 }

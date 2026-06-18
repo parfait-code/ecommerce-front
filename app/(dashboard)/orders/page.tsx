@@ -27,32 +27,50 @@ export default function OrdersPage() {
     {
       key: "id",
       label: "Numéro",
-      render: (o: Order) => <span className="font-mono text-xs text-(--accent)">{o.id}</span>,
+      render: (o: Order) => (
+        <span className="font-mono text-xs text-(--accent)">{o.id}</span>
+      ),
     },
     {
       key: "customer",
       label: "Client",
-      // ⚠️ L'API retourne uniquement userId, pas le nom du client
-      // À enrichir côté backend avec user: { firstName, lastName }
-      render: (o: Order) => <span className="text-(--text-secondary)">Client #{o.userId}</span>,
+      render: (o: Order) =>
+        o.user ? (
+          <div>
+            <p className="text-sm font-medium text-(--text-primary)">
+              {o.user.firstName} {o.user.lastName}
+            </p>
+            <p className="text-xs text-(--text-muted)">{o.user.email}</p>
+          </div>
+        ) : (
+          <span className="text-(--text-secondary)">Client #{o.userId}</span>
+        ),
     },
     {
       key: "totalAmount",
       label: "Montant",
-      render: (o: Order) => <span className="tabular-nums font-medium">{formatCurrency(o.totalAmount)}</span>,
+      render: (o: Order) => (
+        <span className="tabular-nums font-medium">
+          {formatCurrency(o.totalAmount)}
+        </span>
+      ),
     },
     {
       key: "status",
       label: "Statut",
       render: (o: Order) => {
-        const s = statusConfig[o.status];
+        const s = statusConfig[o.status] ?? { label: o.status, variant: "default" as const };
         return <Badge variant={s.variant}>{s.label}</Badge>;
       },
     },
     {
       key: "createdAt",
       label: "Date",
-      render: (o: Order) => <span className="text-xs text-(--text-muted)">{formatDate(o.createdAt!)}</span>,
+      render: (o: Order) => (
+        <span className="text-xs text-(--text-muted)">
+          {o.createdAt ? formatDate(o.createdAt) : "—"}
+        </span>
+      ),
     },
     {
       key: "actions",
@@ -81,6 +99,17 @@ export default function OrdersPage() {
           data={data?.items ?? []}
           keyExtractor={(o) => o.id}
           emptyMessage="Aucune commande trouvée"
+          pagination={
+            data && data.totalPages > 1
+              ? {
+                  currentPage: data.page,
+                  totalPages: data.totalPages,
+                  totalItems: data.total,
+                  pageSize: data.limit,
+                  onPageChange: () => {},
+                }
+              : undefined
+          }
         />
       )}
     </div>

@@ -17,7 +17,7 @@ function QuantityBadge({ qty }: { qty: number }) {
 }
 
 export default function InventoryPage() {
-  const { data, loading, error, refetch } = useInventory();
+  const { data, loading, error, refetch } = useInventory({ page: 1, limit: 20 });
 
   const columns = [
     {
@@ -25,7 +25,9 @@ export default function InventoryPage() {
       label: "Produit",
       render: (i: InventoryItem) => (
         <div>
-          <p className="font-medium text-(--text-primary)">{i.product?.name ?? `Produit #${i.productId}`}</p>
+          <p className="font-medium text-(--text-primary)">
+            {i.product?.name ?? `Produit #${i.productId}`}
+          </p>
           <p className="text-xs text-(--text-muted)">{i.product?.category ?? "—"}</p>
         </div>
       ),
@@ -35,7 +37,9 @@ export default function InventoryPage() {
       label: "Entrepôt",
       render: (i: InventoryItem) => (
         <div>
-          <p className="text-sm text-(--text-secondary)">{i.warehouse?.name ?? `Entrepôt #${i.warehouseId}`}</p>
+          <p className="text-sm text-(--text-secondary)">
+            {i.warehouse?.name ?? `Entrepôt #${i.warehouseId}`}
+          </p>
           <p className="text-xs text-(--text-muted)">{i.warehouse?.location ?? "—"}</p>
         </div>
       ),
@@ -63,12 +67,28 @@ export default function InventoryPage() {
     <div className="space-y-6">
       <PageHeader
         title="Inventaire"
-        description={data ? `${data.length} entrées de stock` : ""}
+        description={data ? `${data.total} entrées de stock` : ""}
       />
       {loading && <LoadingState />}
       {error && <ErrorState message={error} onRetry={refetch} />}
       {!loading && !error && (
-        <DataTable columns={columns} data={data} keyExtractor={(i) => i.id} emptyMessage="Inventaire vide" />
+        <DataTable
+          columns={columns}
+          data={data?.items ?? []}
+          keyExtractor={(i) => i.id}
+          emptyMessage="Inventaire vide"
+          pagination={
+            data && data.totalPages > 1
+              ? {
+                  currentPage: data.page,
+                  totalPages: data.totalPages,
+                  totalItems: data.total,
+                  pageSize: data.limit,
+                  onPageChange: () => {},
+                }
+              : undefined
+          }
+        />
       )}
     </div>
   );

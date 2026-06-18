@@ -1,4 +1,5 @@
-// page.tsx (DashboardPage)
+"use client";
+
 import {
   Package,
   ShoppingCart,
@@ -8,75 +9,85 @@ import {
   Truck,
 } from "lucide-react";
 import { StatCard } from "../../../components/cards/stat-card";
-import { RecentOrdersWidget } from "../../../features/dashboard/recent-orders-widget";
 import { LowStockWidget } from "../../../features/dashboard/low-stock-widget";
 import { SalesChartWidget } from "../../../features/dashboard/sales-chart-widget";
+import { RecentOrdersWidget } from "../../../features/dashboard/recent-orders-widget";
+import { useDashboardStats } from "../../../hooks/use-dashboard";
+
+function formatAmount(amount: number): string {
+  if (amount >= 1_000_000) return `${(amount / 1_000_000).toFixed(1)}M XAF`;
+  if (amount >= 1_000) return `${(amount / 1_000).toFixed(0)}K XAF`;
+  return `${amount} XAF`;
+}
 
 export default function DashboardPage() {
+  const { data: stats, loading } = useDashboardStats();
+
   return (
     <div className="space-y-6">
-      {/* Page title */}
       <div>
-        <h1 className="text-xl font-semibold text-(--text-primary)">
-          Dashboard
-        </h1>
+        <h1 className="text-xl font-semibold text-(--text-primary)">Dashboard</h1>
         <p className="mt-0.5 text-sm text-(--text-muted)">
           Vue d&apos;ensemble de la plateforme
         </p>
       </div>
 
-      {/* KPIs */}
       <div className="grid grid-cols-2 gap-4 xl:grid-cols-3 2xl:grid-cols-6">
         <StatCard
           title="Produits"
-          value="248"
-          subtitle="12 ajoutés ce mois"
+          value={loading ? "—" : (stats?.products.total ?? "—").toString()}
+          subtitle={
+            stats ? `${stats.products.addedThisMonth} ajoutés ce mois` : "Chargement…"
+          }
           icon={Package}
-          trend={8}
           color="accent"
         />
         <StatCard
           title="Commandes"
-          value="1 284"
+          value={loading ? "—" : (stats?.orders.thisMonth ?? "—").toString()}
           subtitle="ce mois"
           icon={ShoppingCart}
-          trend={12}
+          trend={stats?.orders.trend}
           color="success"
         />
         <StatCard
           title="Clients"
-          value="3 429"
-          subtitle="actifs"
+          value={loading ? "—" : (stats?.users.total ?? "—").toString()}
+          subtitle="comptes actifs"
           icon={Users}
-          trend={5}
           color="accent"
         />
         <StatCard
           title="Paiements"
-          value="4,2M XAF"
+          value={
+            loading
+              ? "—"
+              : stats
+              ? formatAmount(stats.payments.totalAmountThisMonth)
+              : "—"
+          }
           subtitle="ce mois"
           icon={CreditCard}
-          trend={-3}
+          trend={stats?.payments.trend}
           color="warning"
         />
         <StatCard
           title="Stocks faibles"
-          value="14"
+          value={loading ? "—" : (stats?.inventory.lowStockCount ?? "—").toString()}
           subtitle="articles sous seuil"
           icon={AlertTriangle}
           color="danger"
         />
         <StatCard
           title="Expéditions"
-          value="67"
+          value={loading ? "—" : (stats?.shipments.inProgress ?? "—").toString()}
           subtitle="en cours"
           icon={Truck}
-          trend={21}
+          trend={stats?.shipments.trend}
           color="success"
         />
       </div>
 
-      {/* Charts + widgets */}
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
         <div className="xl:col-span-2">
           <SalesChartWidget />
@@ -86,7 +97,6 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Recent orders */}
       <RecentOrdersWidget />
     </div>
   );

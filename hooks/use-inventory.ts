@@ -2,11 +2,16 @@
 import { useState, useEffect, useCallback } from "react";
 import { inventoryService } from "../services/inventory.service";
 import { useAuthStore } from "../store/auth.store";
-import type { InventoryItem } from "../types";
+import type { InventoryItem, PaginatedResponse } from "../types";
 
-export function useInventory(params?: { category?: string; location?: string }) {
+export function useInventory(params?: {
+  category?: string;
+  location?: string;
+  page?: number;
+  limit?: number;
+}) {
   const { token } = useAuthStore();
-  const [data, setData] = useState<InventoryItem[]>([]);
+  const [data, setData] = useState<PaginatedResponse<InventoryItem> | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -22,9 +27,11 @@ export function useInventory(params?: { category?: string; location?: string }) 
     } finally {
       setLoading(false);
     }
-  }, [token, params?.category, params?.location]);
+  }, [token, params?.category, params?.location, params?.page, params?.limit]);
 
-  useEffect(() => { fetch(); }, [fetch]);
+  useEffect(() => {
+    fetch();
+  }, [fetch]);
 
   return { data, loading, error, refetch: fetch };
 }
@@ -38,7 +45,8 @@ export function useInventoryItem(id: string) {
   useEffect(() => {
     if (!token || !id) return;
     setLoading(true);
-    inventoryService.getById(id, token)
+    inventoryService
+      .getById(id, token)
       .then(setData)
       .catch((e) => setError(e instanceof Error ? e.message : "Erreur"))
       .finally(() => setLoading(false));
