@@ -1,36 +1,44 @@
-// page.tsx (UsersPage)
+"use client";
+
 import { PageHeader } from "../../../components/shared/page-header";
 import { DataTable } from "../../../components/tables/data-table";
 import { Badge } from "../../../components/ui/badge";
 import { Button } from "../../../components/ui/button";
+import { LoadingState, ErrorState } from "../../../components/shared/loading-state";
 import { formatDate } from "../../../lib/utils";
 import { Eye, Shield, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { useUsers } from "../../../hooks/use-users";
+import { usersService } from "../../../services/users.service";
+import { useAuthStore } from "../../../store/auth.store";
+import { useState } from "react";
 import type { User } from "../../../types";
 
-const mockUsers: User[] = [
-  { id: 1, username: "johndoe", email: "john@example.com", firstName: "John", lastName: "Doe", role: "user", createdAt: "2026-01-10T10:00:00Z" },
-  { id: 2, username: "admin", email: "admin@example.com", firstName: "Admin", lastName: "Super", role: "admin", createdAt: "2026-01-01T10:00:00Z" },
-  { id: 3, username: "marienk", email: "marie@example.com", firstName: "Marie", lastName: "Nkomo", role: "MANAGER", createdAt: "2026-03-15T10:00:00Z" },
-];
-
 const roleColors: Record<string, "accent" | "success" | "warning" | "default"> = {
-  user: "default",
-  admin: "accent",
-  SUPER_ADMIN: "success",
-  MANAGER: "warning",
-  ANALYST: "default",
+  user: "default", admin: "accent", SUPER_ADMIN: "success", MANAGER: "warning", ANALYST: "default",
 };
-
 const roleLabels: Record<string, string> = {
-  user: "Utilisateur",
-  admin: "Admin",
-  SUPER_ADMIN: "Super Admin",
-  MANAGER: "Manager",
-  ANALYST: "Analyste",
+  user: "Utilisateur", admin: "Admin", SUPER_ADMIN: "Super Admin", MANAGER: "Manager", ANALYST: "Analyste",
 };
 
 export default function UsersPage() {
+  const { data, loading, error, refetch } = useUsers();
+  const { token } = useAuthStore();
+  const [deletingId, setDeletingId] = useState<number | null>(null);
+
+  async function handleDelete(id: number) {
+    if (!token || !confirm("Supprimer cet utilisateur ?")) return;
+    setDeletingId(id);
+    try {
+      await usersService.delete(id, token);
+      refetch();
+    } catch (e) {
+      alert(e instanceof Error ? e.message : "Erreur");
+    } finally {
+      setDeletingId(null);
+    }
+  }
+
   const columns = [
     {
       key: "name",
@@ -55,17 +63,16 @@ export default function UsersPage() {
     {
       key: "role",
       label: "Rôle",
-      render: (u: User) => (
-        <Badge variant={roleColors[u.role] || "default"}>
-          {roleLabels[u.role] || u.role}
-        </Badge>
-      ),
+      render: (u: User) => <Badge variant={roleColors[u.role] || "default"}>{roleLabels[u.role] || u.role}</Badge>,
     },
     {
       key: "createdAt",
       label: "Inscription",
+      // ⚠️ createdAt non retourné par GET /user/all — à ajouter côté backend
       render: (u: User) => (
-        <span className="text-xs text-(--text-muted)">{formatDate(u.createdAt!)}</span>
+        <span className="text-xs text-(--text-muted)">
+          {u.createdAt ? formatDate(u.createdAt) : "—"}
+        </span>
       ),
     },
     {
@@ -77,7 +84,14 @@ export default function UsersPage() {
             <Button variant="ghost" size="sm" icon={<Eye size={13} />} />
           </Link>
           <Button variant="ghost" size="sm" icon={<Shield size={13} />} />
-          <Button variant="ghost" size="sm" icon={<Trash2 size={13} />} className="hover:text-(--danger)" />
+          <Button
+            variant="ghost"
+            size="sm"
+            icon={<Trash2 size={13} />}
+            className="hover:text-(--danger)"
+            loading={deletingId === u.id}
+            onClick={() => handleDelete(u.id)}
+          />
         </div>
       ),
     },
@@ -87,16 +101,15 @@ export default function UsersPage() {
     <div className="space-y-6">
       <PageHeader
         title="Utilisateurs"
-        description={`${mockUsers.length} utilisateurs`}
+        description={data ? `${data.length} utilisateurs` : ""}
         createHref="/users/create"
         createLabel="Nouvel utilisateur"
       />
-      <DataTable
-        columns={columns}
-        data={mockUsers}
-        keyExtractor={(u) => u.id}
-        emptyMessage="Aucun utilisateur trouvé"
-      />
+      {loading && <LoadingState />}
+      {error && <ErrorState message={error} onRetry={refetch} />}
+      {!loading && !error && (
+        <DataTable columns={columns} data={data} keyExtractor={(u) => u.id} emptyMessage="Aucun utilisateur trouvé" />
+      )}
     </div>
   );
 }

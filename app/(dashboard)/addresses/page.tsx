@@ -1,16 +1,35 @@
-// page.tsx (AddressesPage)
+"use client";
+
 import { PageHeader } from "../../../components/shared/page-header";
 import { DataTable } from "../../../components/tables/data-table";
 import { Badge } from "../../../components/ui/badge";
+import { Button } from "../../../components/ui/button";
+import { LoadingState, ErrorState } from "../../../components/shared/loading-state";
+import { Trash2 } from "lucide-react";
+import { useAddresses } from "../../../hooks/use-addresses";
+import { addressesService } from "../../../services/addresses.service";
+import { useAuthStore } from "../../../store/auth.store";
+import { useState } from "react";
 import type { Address } from "../../../types";
 
-const mockAddresses: Address[] = [
-  { id: "ck_address_1", userId: 1, street: "12 Rue de la Paix", city: "Yaoundé", country: "CM", postalCode: "00237", isDefault: true },
-  { id: "ck_address_2", userId: 2, street: "5 Av. Kennedy", city: "Douala", country: "CM", postalCode: "00237", isDefault: false },
-  { id: "ck_address_3", userId: 3, street: "8 Bd. de l'Indépendance", city: "Bafoussam", country: "CM", postalCode: "00237", isDefault: false },
-];
-
 export default function AddressesPage() {
+  const { data, loading, error, refetch } = useAddresses();
+  const { token } = useAuthStore();
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  async function handleDelete(id: string) {
+    if (!token || !confirm("Supprimer cette adresse ?")) return;
+    setDeletingId(id);
+    try {
+      await addressesService.delete(id, token);
+      refetch();
+    } catch (e) {
+      alert(e instanceof Error ? e.message : "Erreur");
+    } finally {
+      setDeletingId(null);
+    }
+  }
+
   const columns = [
     {
       key: "street",
@@ -31,14 +50,36 @@ export default function AddressesPage() {
       key: "isDefault",
       label: "Défaut",
       render: (a: Address) =>
-        a.isDefault ? <Badge variant="accent">Principale</Badge> : <span className="text-(--text-muted) text-xs">—</span>,
+        a.isDefault
+          ? <Badge variant="accent">Principale</Badge>
+          : <span className="text-(--text-muted) text-xs">—</span>,
+    },
+    {
+      key: "actions",
+      label: "",
+      render: (a: Address) => (
+        <div className="flex justify-end">
+          <Button
+            variant="ghost"
+            size="sm"
+            icon={<Trash2 size={13} />}
+            className="hover:text-(--danger)"
+            loading={deletingId === a.id}
+            onClick={() => handleDelete(a.id)}
+          />
+        </div>
+      ),
     },
   ];
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Adresses" description={`${mockAddresses.length} adresses enregistrées`} />
-      <DataTable columns={columns} data={mockAddresses} keyExtractor={(a) => a.id} emptyMessage="Aucune adresse" />
+      <PageHeader title="Adresses" description={data ? `${data.length} adresses enregistrées` : ""} />
+      {loading && <LoadingState />}
+      {error && <ErrorState message={error} onRetry={refetch} />}
+      {!loading && !error && (
+        <DataTable columns={columns} data={data} keyExtractor={(a) => a.id} emptyMessage="Aucune adresse" />
+      )}
     </div>
   );
 }

@@ -1,43 +1,14 @@
-// page.tsx (InventoryPage)
+"use client";
+
 import { PageHeader } from "../../../components/shared/page-header";
 import { DataTable } from "../../../components/tables/data-table";
 import { Badge } from "../../../components/ui/badge";
 import { Button } from "../../../components/ui/button";
+import { LoadingState, ErrorState } from "../../../components/shared/loading-state";
 import { Eye, RefreshCw } from "lucide-react";
 import Link from "next/link";
+import { useInventory } from "../../../hooks/use-inventory";
 import type { InventoryItem } from "../../../types";
-
-type InventoryRow = Omit<InventoryItem, "product" | "warehouse"> & {
-  product: { id: number; name: string; category: string };
-  warehouse: { id: string; name: string; location: string };
-};
-
-const mockInventory: InventoryRow[] = [
-  {
-    id: "ck_inv_1",
-    productId: 1,
-    warehouseId: "ck_warehouse_1",
-    quantity: 50,
-    product: { id: 1, name: "T-shirt en coton", category: "Vêtements" },
-    warehouse: { id: "ck_warehouse_1", name: "Entrepôt Yaoundé", location: "Yaoundé" },
-  },
-  {
-    id: "ck_inv_2",
-    productId: 2,
-    warehouseId: "ck_warehouse_1",
-    quantity: 3,
-    product: { id: 2, name: "Casquette noire", category: "Accessoires" },
-    warehouse: { id: "ck_warehouse_1", name: "Entrepôt Yaoundé", location: "Yaoundé" },
-  },
-  {
-    id: "ck_inv_3",
-    productId: 3,
-    warehouseId: "ck_warehouse_2",
-    quantity: 0,
-    product: { id: 3, name: "Sac à dos Sport", category: "Bagagerie" },
-    warehouse: { id: "ck_warehouse_2", name: "Entrepôt Douala", location: "Douala" },
-  },
-];
 
 function QuantityBadge({ qty }: { qty: number }) {
   if (qty === 0) return <Badge variant="danger">Rupture</Badge>;
@@ -46,36 +17,38 @@ function QuantityBadge({ qty }: { qty: number }) {
 }
 
 export default function InventoryPage() {
+  const { data, loading, error, refetch } = useInventory();
+
   const columns = [
     {
       key: "product",
       label: "Produit",
-      render: (i: InventoryRow) => (
+      render: (i: InventoryItem) => (
         <div>
-          <p className="font-medium text-(--text-primary)">{i.product.name}</p>
-          <p className="text-xs text-(--text-muted)">{i.product.category}</p>
+          <p className="font-medium text-(--text-primary)">{i.product?.name ?? `Produit #${i.productId}`}</p>
+          <p className="text-xs text-(--text-muted)">{i.product?.category ?? "—"}</p>
         </div>
       ),
     },
     {
       key: "warehouse",
       label: "Entrepôt",
-      render: (i: InventoryRow) => (
+      render: (i: InventoryItem) => (
         <div>
-          <p className="text-sm text-(--text-secondary)">{i.warehouse.name}</p>
-          <p className="text-xs text-(--text-muted)">{i.warehouse.location}</p>
+          <p className="text-sm text-(--text-secondary)">{i.warehouse?.name ?? `Entrepôt #${i.warehouseId}`}</p>
+          <p className="text-xs text-(--text-muted)">{i.warehouse?.location ?? "—"}</p>
         </div>
       ),
     },
     {
       key: "quantity",
       label: "Quantité",
-      render: (i: InventoryRow) => <QuantityBadge qty={i.quantity} />,
+      render: (i: InventoryItem) => <QuantityBadge qty={i.quantity} />,
     },
     {
       key: "actions",
       label: "",
-      render: (i: InventoryRow) => (
+      render: (i: InventoryItem) => (
         <div className="flex items-center gap-1 justify-end">
           <Link href={`/inventory/${i.id}`}>
             <Button variant="ghost" size="sm" icon={<Eye size={13} />} />
@@ -90,14 +63,13 @@ export default function InventoryPage() {
     <div className="space-y-6">
       <PageHeader
         title="Inventaire"
-        description={`${mockInventory.length} entrées de stock`}
+        description={data ? `${data.length} entrées de stock` : ""}
       />
-      <DataTable
-        columns={columns}
-        data={mockInventory}
-        keyExtractor={(i) => i.id}
-        emptyMessage="Inventaire vide"
-      />
+      {loading && <LoadingState />}
+      {error && <ErrorState message={error} onRetry={refetch} />}
+      {!loading && !error && (
+        <DataTable columns={columns} data={data} keyExtractor={(i) => i.id} emptyMessage="Inventaire vide" />
+      )}
     </div>
   );
 }
