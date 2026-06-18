@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://nat-logos-adsl-neil.trycloudflare.com";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://cayman-diesel-kid-accommodation.trycloudflare.com";
 
 type RequestOptions = {
   method?: string;
