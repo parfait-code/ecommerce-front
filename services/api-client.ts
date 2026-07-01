@@ -1,4 +1,6 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://seller-modified-decorating-ran.trycloudflare.com";
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://sox-troy-barn-performs.trycloudflare.com";
 
 type RequestOptions = {
   method?: string;
@@ -8,7 +10,7 @@ type RequestOptions = {
 
 async function request<T>(
   endpoint: string,
-  options: RequestOptions = {}
+  options: RequestOptions = {},
 ): Promise<T> {
   const { method = "GET", body, token } = options;
 
@@ -36,8 +38,7 @@ async function request<T>(
 }
 
 export const apiClient = {
-  get: <T>(endpoint: string, token?: string) =>
-    request<T>(endpoint, { token }),
+  get: <T>(endpoint: string, token?: string) => request<T>(endpoint, { token }),
 
   post: <T>(endpoint: string, body: unknown, token?: string) =>
     request<T>(endpoint, { method: "POST", body, token }),
